@@ -99,7 +99,7 @@ function buildCard(item){
     <h4>${escapeHtml(item.name || '')}</h4>
     <div class="tag-specs">${specsHtml}</div>
     <div class="tag-price-row">
-      <span class="amount">${price}</span> <span class="unit">${unit ? '/ ' + unit + ' incl. GST' : ''}</span>
+      <span class="amount">${price}</span> <span class="unit">${unit ? '/ ' + unit + ' + GST' : ''}</span>
     </div>
   `;
   return card;
