@@ -2,6 +2,14 @@ const GOOGLE_SHEET_RAW_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR
 const GOOGLE_SHEET_HARDWARE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2vFpWygFj4hlj43uwbTKq6KCavxWIZ1i3filKIvT_d-vKnTidVDcA8Y9pZv97fO2On-TWNQjZ14Nq/pub?output=csv';     // <-- REPLACE: Hardware & Small Items sheet CSV link
 const GOOGLE_SHEET_FABRICATION_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS1qG2gIK6AD0dlBfQCy0ksmJ47r9OVRP4PVPhSGjDugi2e5VUkRg8CTK0TsF4BB-F6nK4fIKfYA3zA/pub?output=csv'; // <-- REPLACE: Fabrication Charges sheet CSV link
 
+
+let num=document.getElementById("num1");
+let date=new Date();
+let years= date.getFullYear()-2012;
+
+num.textContent=`${years}+`;
+
+
 function detectDelimiter(sampleLine){
   const candidates = [',', '\t', ';'];
   let best = ',', bestCount = -1;
@@ -82,8 +90,8 @@ function buildCard(item){
   const specsHtml = (item.specs || '')
     .split('|').map(s => escapeHtml(s.trim())).filter(Boolean).join('<br>');
 
-  const priceWith = item.price_with_gst ? `₹${escapeHtml(item.price_with_gst)}` : 'On request';
-  const priceNo = item.price_without_gst ? `₹${escapeHtml(item.price_without_gst)}` : 'On request';
+  // single GST-inclusive price only — no with/without GST toggle anymore
+  const price = item.price_with_gst ? `₹${escapeHtml(item.price_with_gst)}` : 'On request';
   const unit = escapeHtml(item.unit || '');
 
   card.innerHTML = `
@@ -91,8 +99,7 @@ function buildCard(item){
     <h4>${escapeHtml(item.name || '')}</h4>
     <div class="tag-specs">${specsHtml}</div>
     <div class="tag-price-row">
-      <div class="price-view withgst active"><span class="amount">${priceWith}</span> <span class="unit">${unit ? '/ ' + unit + ' incl. GST' : ''}</span></div>
-      <div class="price-view nogst"><span class="amount">${priceNo}</span> <span class="unit">${unit ? '/ ' + unit + '' : ''}</span></div>
+      <span class="amount">${price}</span> <span class="unit">${unit ? '/ ' + unit + ' incl. GST' : ''}</span>
     </div>
   `;
   return card;
@@ -174,12 +181,6 @@ function renderCategory(containerId, rows){
       container.appendChild(buildSubcatBlock(subName, grouped[subName]));
     });
   }
-
-  // keep whichever GST view (with/without) the visitor currently has selected
-  const activeMode = document.querySelector('.gst-toggle-btn.active')?.dataset.mode || 'withgst';
-  document.querySelectorAll('.price-view').forEach(pv => {
-    pv.classList.toggle('active', pv.classList.contains(activeMode));
-  });
 }
 
 // ============================================================
@@ -401,20 +402,6 @@ document.querySelectorAll('.fab-card .fab-slideshow[data-slideshow]').forEach((e
   });
   primaryNav.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => primaryNav.classList.remove('open'));
-  });
-
-  // ---------- GST toggle (applies to all toggle groups on the page) ----------
-  document.querySelectorAll('.gst-toggle-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const mode = btn.dataset.mode; // 'withgst' or 'nogst'
-      // sync all toggle groups
-      document.querySelectorAll('.gst-toggle-btn').forEach(b => {
-        b.classList.toggle('active', b.dataset.mode === mode);
-      });
-      document.querySelectorAll('.price-view').forEach(pv => {
-        pv.classList.toggle('active', pv.classList.contains(mode));
-      });
-    });
   });
 
   // ---------- gallery tabs ----------
