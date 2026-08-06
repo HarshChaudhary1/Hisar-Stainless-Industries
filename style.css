@@ -299,19 +299,6 @@
 
   .section-head{display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap;}
 
-  /* ================= GST TOGGLE ================= */
-  .gst-toggle{
-    display:inline-flex; align-items:center; gap:10px;
-    background:#fff; border:1px solid var(--line); border-radius:30px;
-    padding:6px; font-family:'JetBrains Mono',monospace; font-size:0.78rem;
-  }
-  .gst-toggle button{
-    border:none; background:transparent; padding:8px 16px; border-radius:24px;
-    cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:0.78rem; font-weight:700;
-    color:var(--muted); text-transform:uppercase; letter-spacing:0.04em;
-  }
-  .gst-toggle button.active{background:var(--graphite); color:#fff;}
-
   /* ================= PRODUCT / TAG CARDS ================= */
   .grade-block{margin-top:64px;}
   .grade-block:first-child{margin-top:0;}
@@ -392,12 +379,12 @@
   }
   .tag-card h4{font-size:1.02rem; margin-top:4px;}
   .tag-specs{margin-top:10px; font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--muted); line-height:1.6;}
-  .tag-price-row{margin-top:16px; padding-top:14px; border-top:1px dashed var(--line);}
-  .price-view{display:none; font-family:'JetBrains Mono',monospace;}
-  .price-view.active{display:block;}
-  .price-view .amount{font-size:1.3rem; font-weight:700; color:var(--graphite);}
-  .price-view .unit{font-size:0.75rem; color:var(--muted);}
-  .price-view .tagline{font-size:0.68rem; color:var(--accent-dark); text-transform:uppercase; letter-spacing:0.05em; font-weight:700;}
+  .tag-price-row{
+    margin-top:16px; padding-top:14px; border-top:1px dashed var(--line);
+    font-family:'JetBrains Mono',monospace;
+  }
+  .tag-price-row .amount{font-size:1.3rem; font-weight:700; color:var(--graphite);}
+  .tag-price-row .unit{font-size:0.75rem; color:var(--muted);}
 
   /* ================= FABRICATION ================= */
   .fab-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:40px;}
